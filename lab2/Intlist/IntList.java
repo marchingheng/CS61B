@@ -81,7 +81,7 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        if(A==null){A = B;}
+        if(A==null){return B;}
         IntList p = A;
         while(p.rest != null){p = p.rest;}
         p.rest = B;
@@ -94,17 +94,20 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         if (A == null){return B;}// always handle the null argument first
+        ////iterative approach
+//        IntList result = new IntList(A.first, null);
+//        IntList p = result;
+//        A = A.rest;
+//        while(A != null){
+//            p.rest = new IntList(A.first, null);
+//            p = p.rest;
+//            A = A.rest;
+//        }
+//        p.rest = B;
+//        return result;
+        ////recursive approach
+        return new IntList(A.first, catenate(A.rest, B));
 
-        IntList result = new IntList(A.first, null);
-        IntList p = result;
-        A = A.rest;
-        while(A != null){
-            p.rest = new IntList(A.first, null);
-            p = p.rest;
-            A = A.rest;
-        }
-        p.rest = B;
-        return result;
     }
 
 
