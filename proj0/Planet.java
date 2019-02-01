@@ -40,7 +40,7 @@ public class Planet{
 
 	/** calculate the force between two planet in x-direction */
 	public double calcForceExertedByX(Planet p){
-		double dx = this.xxPos - p.xxPos;
+		double dx = p.xxPos - this.xxPos;
 		double distance = this.calcDistance(p);
 		double force = this.calcForceExertedBy(p);
 		return force/distance*dx;
@@ -48,7 +48,7 @@ public class Planet{
 
 	/** calculate the force between two planet in y-direction */
 	public double calcForceExertedByY(Planet p){
-		double dy = this.yyPos - p.yyPos;
+		double dy = p.yyPos - this.yyPos;
 		double distance = this.calcDistance(p);
 		double force = this.calcForceExertedBy(p);
 		return force/distance*dy;
