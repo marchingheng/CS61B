@@ -43,7 +43,7 @@ public class Planet{
 		double dx = this.xxPos - p.xxPos;
 		double distance = this.calcDistance(p);
 		double force = this.calcForceExertedBy(p);
-		return Math.abs(force/distance*dx);
+		return force/distance*dx;
 	}
 
 	/** calculate the force between two planet in y-direction */
@@ -51,7 +51,7 @@ public class Planet{
 		double dy = this.yyPos - p.yyPos;
 		double distance = this.calcDistance(p);
 		double force = this.calcForceExertedBy(p);
-		return Math.abs(force/distance*dy);
+		return force/distance*dy;
 	}
 
 	/** take in an array of planets and calculate their force to current planet in x-direction */
