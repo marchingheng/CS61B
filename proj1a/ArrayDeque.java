@@ -1,89 +1,151 @@
-/** Performs some basic linked list tests. */
-public class LinkedListDequeTest {
-	
-	/* Utility method for printing out empty checks. */
-	public static boolean checkEmpty(boolean expected, boolean actual) {
-		if (expected != actual) {
-			System.out.println("isEmpty() returned " + actual + ", but expected: " + expected);
-			return false;
-		}
-		return true;
-	}
+/** https://sp18.datastructur.es/materials/proj/proj1a/proj1a */
+public class ArrayDeque<T>{
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+    private T[] items;
 
-	/* Utility method for printing out empty checks. */
-	public static boolean checkSize(int expected, int actual) {
-		if (expected != actual) {
-			System.out.println("size() returned " + actual + ", but expected: " + expected);
-			return false;
-		}
-		return true;
-	}
+    public ArrayDeque(){
+        size = 0;
+        nextFirst = 4;
+        nextLast = 5;
+        items = (T[]) new Object[8];
+    }
 
-	/* Prints a nice message based on whether a test passed. 
-	 * The \n means newline. */
-	public static void printTestStatus(boolean passed) {
-		if (passed) {
-			System.out.println("Test passed!\n");
-		} else {
-			System.out.println("Test failed!\n");
-		}
-	}
+    public void addFirst(T item){
+        checkSize();/** resizing before adding*/
+        items[nextFirst] = item;
+        nextFirst = moveIndexLeft(nextFirst);
+        size += 1;
+    }
 
-	/** Adds a few things to the list, checking isEmpty() and size() are correct, 
-	  * finally printing the results. 
-	  *
-	  * && is the "and" operation. */
-	public static void addIsEmptySizeTest() {
-		System.out.println("Running add/isEmpty/Size test.");
+    public void addLast(T item){
+        checkSize();/** resizing before adding*/
+        items[nextLast] = item;
+        nextLast = moveIndexRight(nextLast);
+        size += 1;
+    }
 
-		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+    public T removeFirst(){
+        nextFirst = moveIndexRight(nextFirst);
+        T result = items[nextFirst];
+        items[nextFirst] = null;
+        size -= 1;
+        checkSize();/** resizing after removing*/
+        return result;
+    }
 
-		boolean passed = checkEmpty(true, lld1.isEmpty());
+    public T removeLast(){
+        nextLast = moveIndexLeft(nextLast);
+        T result = items[nextLast];
+        items[nextLast] = null;
+        size --;
+        checkSize();/** resizing after removing*/
+        return result;
+    }
 
-		lld1.addFirst("front");
-		
-		// The && operator is the same as "and" in Python.
-		// It's a binary operator that returns true if both arguments true, and false otherwise.
-		passed = checkSize(1, lld1.size()) && passed;
-		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+    public boolean isEmpty(){
+        return (size == 0);
+    }
 
-		lld1.addLast("middle");
-		passed = checkSize(2, lld1.size()) && passed;
+    public int size(){
+        return size;
+    }
 
-		lld1.addLast("back");
-		passed = checkSize(3, lld1.size()) && passed;
+    public void printDeque(){
+        int index = moveIndexRight(nextFirst);
+        while(index != nextLast){
+            System.out.print(items[index]);
+            System.out.print(" ");
+            index = moveIndexRight(index);
+        }
+        System.out.println();
+    }
 
-		System.out.println("Printing out deque: ");
-		lld1.printDeque();
+    public T get(int index){
+        int indexOfItems = nextFirst + 1;
+        indexOfItems = (indexOfItems + index)%items.length;
+        return items[indexOfItems];
+    }
 
-		printTestStatus(passed);
+    /** these 3 helper functions are for resizing */
+    private void upSize(){
+        T[] newArray = (T[]) new Object[items.length*2];
+        int index = 1;
+        int indexFirst = moveIndexRight(nextFirst);
+        while(index <= size){
+            newArray[index] = items[indexFirst];
+            indexFirst = moveIndexRight(indexFirst);
+            index ++;
+        }
+        items = newArray;
+        nextFirst = 0;
+        nextLast = size + 1;
+    }
 
-	}
+    private void downSize(){
+        T[] newArray = (T[]) new Object[items.length/2];
+        int index = 1;
+        int indexFirst = moveIndexRight(nextFirst);
+        while(index <= size){
+            newArray[index] = items[indexFirst];
+            indexFirst = moveIndexRight(indexFirst);
+            index ++;
+        }
+        items = newArray;
+        nextFirst = 0;
+        nextLast = size + 1;
+    }
 
-	/** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
-	public static void addRemoveTest() {
+    private void checkSize(){
+        if(size!=0 && size < (items.length/4)){downSize();}
+        if(size!=0 && size >= (items.length/4)){upSize();}
+    }
 
-		System.out.println("Running add/remove test.");
 
-		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
-		// should be empty 
-		boolean passed = checkEmpty(true, lld1.isEmpty());
+    /** these 2 helper function help to ensure the Allist is circular */
+    private int moveIndexRight(int x){
+        x ++;
+        x = x%items.length;
+        return x;
+    }
 
-		lld1.addFirst(10);
-		// should not be empty 
-		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+    private int moveIndexLeft(int x){
+        x --;
+        if(x < 0){x = x + items.length;}
+        return x;
+    }
 
-		lld1.removeFirst();
-		// should be empty 
-		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+//    /** testing */
+//    public static void main(String[] args){
+//        ArrayDeque <Integer> allist = new ArrayDeque <Integer>();
+//        allist.addFirst(1);
+//        allist.printDeque();
+//        allist.addFirst(2);
+//        allist.printDeque();
+//        allist.addLast(2);
+//        allist.printDeque();
+//        allist.addFirst(1);
+//        allist.printDeque();
+//        allist.addFirst(1);
+//        allist.printDeque();
+//        allist.addFirst(1);
+//        allist.printDeque();
+//        allist.addFirst(2);
+//        allist.printDeque();
+//        allist.addFirst(3);
+//        allist.printDeque();
+//        allist.removeFirst();
+//        allist.printDeque();
+//        allist.removeLast();
+//        allist.printDeque();
+//        System.out.println(allist.isEmpty());
+//        allist.removeLast();
+//        allist.removeLast();
+//        allist.removeLast();
+//        allist.printDeque();
+//        allist.removeLast();
+//        allist.removeLast();
+//    }
 
-		printTestStatus(passed);
-
-	}
-
-	public static void main(String[] args) {
-		System.out.println("Running tests.\n");
-		addIsEmptySizeTest();
-		addRemoveTest();
-	}
-} 
+}
