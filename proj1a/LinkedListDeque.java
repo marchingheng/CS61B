@@ -91,7 +91,7 @@ public class LinkedListDeque<T>{
 
     //how many properties changed in each recursion will determine how many arguments
         //you will need in the helper function.
-    public T helper(IntNode node, int index){
+    private T helper(IntNode node, int index){
         if(index == 0){return node.item;}
         return helper(node.next, index-1);
     }
