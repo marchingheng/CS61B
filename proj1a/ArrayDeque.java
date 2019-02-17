@@ -37,6 +37,7 @@ public class ArrayDeque<T>{
     }
 
     public T removeLast(){
+        if(size == 0){return null;}
         nextLast = moveIndexLeft(nextLast);
         T result = items[nextLast];
         items[nextLast] = null;
