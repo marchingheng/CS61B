@@ -27,6 +27,7 @@ public class ArrayDeque<T>{
     }
 
     public T removeFirst(){
+        if(size == 0){return null;}
         nextFirst = moveIndexRight(nextFirst);
         T result = items[nextFirst];
         items[nextFirst] = null;
@@ -98,8 +99,8 @@ public class ArrayDeque<T>{
     }
 
     private void checkSize(){
-        if(size!=0 && size < (items.length/4)){downSize();}
-        if(size!=0 && size >= (items.length/4)){upSize();}
+        if(size!=0 && size < (items.length/2)){downSize();}
+        if(size!=0 && size >= (items.length/2)){upSize();}
     }
 
 
@@ -116,36 +117,36 @@ public class ArrayDeque<T>{
         return x;
     }
 
-//    /** testing */
-//    public static void main(String[] args){
-//        ArrayDeque <Integer> allist = new ArrayDeque <Integer>();
-//        allist.addFirst(1);
-//        allist.printDeque();
-//        allist.addFirst(2);
-//        allist.printDeque();
-//        allist.addLast(2);
-//        allist.printDeque();
-//        allist.addFirst(1);
-//        allist.printDeque();
-//        allist.addFirst(1);
-//        allist.printDeque();
-//        allist.addFirst(1);
-//        allist.printDeque();
-//        allist.addFirst(2);
-//        allist.printDeque();
-//        allist.addFirst(3);
-//        allist.printDeque();
-//        allist.removeFirst();
-//        allist.printDeque();
-//        allist.removeLast();
-//        allist.printDeque();
-//        System.out.println(allist.isEmpty());
-//        allist.removeLast();
-//        allist.removeLast();
-//        allist.removeLast();
-//        allist.printDeque();
-//        allist.removeLast();
-//        allist.removeLast();
-//    }
+    /** testing */
+    public static void main(String[] args){
+        ArrayDeque <Integer> allist = new ArrayDeque <Integer>();
+        allist.addFirst(1);
+        allist.printDeque();
+        allist.addFirst(2);
+        allist.printDeque();
+        allist.addLast(2);
+        allist.printDeque();
+        allist.addFirst(1);
+        allist.printDeque();
+        allist.addFirst(1);
+        allist.printDeque();
+        allist.addFirst(1);
+        allist.printDeque();
+        allist.addFirst(2);
+        allist.printDeque();
+        allist.addFirst(3);
+        allist.printDeque();
+        allist.removeFirst();
+        allist.printDeque();
+        allist.removeLast();
+        allist.printDeque();
+        System.out.println(allist.isEmpty());
+        allist.removeLast();
+        allist.removeLast();
+        allist.removeLast();
+        allist.printDeque();
+        allist.removeLast();
+        allist.removeLast();
+    }
 
 }
